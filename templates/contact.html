@@ -1,0 +1,12 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<h2>Напишите нам:</h2>
+<form action="/contact" method="post" class="form-contact">
+    <label>Имя: </label><input type="text" name="username" value="" required>
+    <label>Email: </label><input type="text" name="email" value="" required>
+    <label>Сообщение:</label>
+        <textarea name="message" rows=7 cols=40></textarea>
+        <input type="submit" value="Отправить">
+</form>
+{% endblock %}
