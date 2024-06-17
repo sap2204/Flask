@@ -29,3 +29,16 @@ ul li {
 h2 {
 	text-align: center;
 }
+
+.flash {
+	width: 350px;
+	margin: 20px auto 0 auto;
+	padding: 10px;
+	border: black;
+}
+.flash.success {
+	background-color: rgb(139, 228, 139);
+}
+.flash.error{
+	background-color:lightcoral;
+}
