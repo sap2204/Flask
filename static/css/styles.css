@@ -18,7 +18,7 @@ ul li {
 	padding: 10px 90px 10px 90px;
 }
 
-.form-contact {
+.form-contact, .form-login {
 	width: 450px;
 	margin: 20px auto 0 auto;
 	padding: 10px;

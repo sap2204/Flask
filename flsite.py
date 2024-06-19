@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, flash
+from flask import Flask, abort, redirect, render_template, request, session, url_for, flash
 
 
 app = Flask(__name__)
@@ -16,12 +16,15 @@ def index():
     return render_template("index.html", menu=menu, title="Про Flask")
 
 
+# Эндпоинт профиля зарегистрированного пользователя
 @app.route("/profile/<username>")
 def profile(username):
-    print(url_for('profile', username="sergei"))
+    if "userLogged" not in session or session["userLogged"] != username:
+        abort(401)
     return f"Пользователь: {username}"
 
 
+# Эндпоинт о сайте
 @app.route("/about")
 def about():
     print(url_for('about'))
@@ -38,6 +41,25 @@ def contact():
             flash('Ошибка отправки!', category='error')
         print(request.form)
     return render_template('contact.html', title="Обратная связь", menu=menu)
+
+
+# Обработчик ошибки сервера 404
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('page404.html', title="Страница не найдена", menu=menu)
+
+
+# Обработчик для авторизации и редиректа
+@app.route("/login", methods=["POST", "GET"])
+def login():
+    if "userLogged" in session:
+        return redirect(url_for('profile', username=session['userLogged']))
+    elif request.method == "POST" and request.form['username'] == 'zufs' and request.form['psw'] == '123':
+        session["userLogged"] = request.form["username"]
+        return redirect(url_for('profile', username=session['userLogged']))
+    
+    return render_template('login.html', title="Авторизация", menu=menu)
+
 
 #with app.test_request_context():
 #    print(url_for('about'))
